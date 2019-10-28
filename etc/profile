@@ -1,0 +1,35 @@
+# Ash profile 
+# vim: syntax=sh
+
+# No core files by default
+#ulimit -S -c 0 > /dev/null 2>&1
+
+#export set HOME=/root
+#export set QTDIR=/opt/PDA
+#export set QPEDIR=/opt/PDA
+#export set QWS_DISPLAY="LinuxFB:/dev/fb0"
+#export set QWS_DISPLAY="LinuxFB:mmWidth130:mmHeight100:0"
+#export set QWS_KEYBOARD="TTY:/dev/tty1"
+#if [ -f /sys/devices/virtual/input/input1/uevent ] ; then
+#	export set TSLIB_TSDEVICE=/dev/event1
+#	export set TSLIB_CALIBFILE=/etc/pointercal
+#	export set TSLIB_CONFFILE=/etc/ts.conf
+#	export set TSLIB_PLUGINDIR=/lib/ts
+#	export set QWS_MOUSE_PROTO="TSLIB:/dev/event1 MouseMan:/dev/mice"
+#else
+#	export set QWS_MOUSE_PROTO="MouseMan:/dev/mice"
+#fi
+#export set QT_PLUGIN_PATH=$QTDIR/plugins/
+#export set QT_QWS_FONTDIR=$QTDIR/lib/fonts/
+#export set PATH=$QPEDIR/bin:$PATH
+#export set LD_LIBRARY_PATH=$QTDIR/lib:$QPEDIR/plugins/imageformats:$LD_LIBRARY_PATH
+
+USER="`id -un`"
+LOGNAME=$USER
+PS1='[\u@\h \W]# '
+PATH=$PATH
+
+HOSTNAME=`/bin/hostname`
+
+export USER LOGNAME PS1 PATH
+
