@@ -19,6 +19,5 @@ floppy:*:25:
 tape:*:26:
 sudo:*:27:
 audio:*:29:
-ppp:x:99:
-500:x:500:sky
-501:x:501:sky
+500:x:500:ftp
+501:x:501:ftp
