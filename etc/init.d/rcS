@@ -38,7 +38,7 @@ hwclock -s
 #modprobe zd1211rw
 #modprobe rt73usb
 #modprobe rt5370sta
-
+insmod /lib/modules/drivers/ads7846.ko
 ifconfig lo 127.0.0.1
 net_set &
 

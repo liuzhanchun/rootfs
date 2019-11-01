@@ -1,0 +1,14 @@
+prefix=/opt/qt/qt_arm
+exec_prefix=${prefix}
+libdir=${prefix}/lib
+includedir=${prefix}/include
+
+
+Name: Qt5 UiTools
+Description: Qt UiTools module
+Version: 5.9.8
+Libs: -L${libdir} -lQt5UiTools 
+Libs.private: -L/home/lzc/develop/tslib-master/tslib-master/Arm-tslib/lib -L/opt/qt/qt_arm/lib -lQt5Widgets -lQt5Gui -lQt5Core -lpthread -lQt5Widgets -L/home/lzc/develop/tslib-master/tslib-master/Arm-tslib/lib -L/opt/qt/qt_arm/lib -lQt5Gui -lQt5Core -lpthread 
+Cflags: -I${includedir}/QtUiTools -I${includedir}
+Requires: Qt5Core Qt5Gui Qt5Widgets
+
