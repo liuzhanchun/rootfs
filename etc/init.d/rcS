@@ -19,6 +19,11 @@ echo /sbin/mdev > /proc/sys/kernel/hotplug
 mdev -s
 mkdir -p /var/lock
 
+mount -t vfat /dev/mmcblk1p1 /run/media/mmcblk1p1
+mount -t ext4 /dev/mmcblk1p2 /run/media/mmcblk1p2
+mount -t ext4 /dev/mmcblk1p3 /run/media/mmcblk1p3
+mount -t ext4 /dev/mmcblk1p4 /run/media/mmcblk1p4
+
 hwclock -s
 #EmbedSky_wdg &
 
