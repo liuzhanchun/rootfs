@@ -1,0 +1,13 @@
+Package: parted
+Version: 3.2-r1
+Description: Disk partition editing/resizing utility
+ Disk partition editing/resizing utility.
+Section: console/tools
+Priority: optional
+Maintainer: OE-Core Developers <openembedded-core@lists.openembedded.org>
+License: GPLv3+
+Architecture: armv7ahf-neon
+OE: parted
+Homepage: http://www.gnu.org/software/parted/parted.html
+Depends: libreadline5 (>= 5.2), libtinfo5 (>= 6.0+20160213), libblkid1 (>= 2.27.1), libuuid1 (>= 2.27.1), libc6 (>= 2.21)
+Source: http://ftp.gnu.org/gnu/parted/parted-3.2.tar.xz file://no_check.patch file://syscalls.patch file://fix-doc-mandir.patch file://fix-compile-failure-while-dis.patch file://0001-Include-fcntl.h-in-platform_defs.h.patch file://0001-Unset-need_charset_alias-when-building-for-musl.patch file://run-ptest file://Makefile
