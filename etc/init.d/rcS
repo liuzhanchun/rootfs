@@ -24,6 +24,9 @@ mount -t ext4 /dev/mmcblk1p2 /run/media/mmcblk1p2
 mount -t ext4 /dev/mmcblk1p3 /run/media/mmcblk1p3
 mount -t ext4 /dev/mmcblk1p4 /run/media/mmcblk1p4
 
+mount -t vfat /dev/mmcblk0p1 /run/media/mmcblk0p1
+mount -t ext4 /dev/mmcblk0p2 /run/media/mmcblk0p2
+
 hwclock -s
 #EmbedSky_wdg &
 
