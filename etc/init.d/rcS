@@ -55,7 +55,7 @@ net_set &
 #/etc/rc.d/init.d/httpd start
 insmod /opt/dsp_mailbox.ko
 mknod /dev/dsp_mailbox c 246 0
-/home/root/spi -D /dev/spidev1.0
+#/home/root/spi -D /dev/spidev1.0
 /opt/dsploader /ftp/AM57xx_DSP1DEMO.out dsp1
 
 vsftpd &

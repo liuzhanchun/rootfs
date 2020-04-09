@@ -1,11 +1,6 @@
 #! /bin/sh
-# Script to create SD card for 572x plaform.
-#
-# Author: Brijesh Singh, Texas Instruments Inc.
-#
-# Licensed under terms of GPLv2
 
-VERSION="0.4"
+VERSION="1.0"
 
 execute ()
 {
@@ -49,7 +44,7 @@ while [ $# -gt 0 ]; do
     --help | -h)
       usage $0
       ;;
-    --device) shift; device=$1; shift; ;;
+    --device | -d) shift; device=$1; shift; ;;
     --version) version $0;;
     *) copy="$copy $1"; shift; ;;
   esac
@@ -68,17 +63,7 @@ if [ ! -b $device ]; then
    echo "ERROR: $device is not a block device file"
    exit 1;
 fi
-
-echo "************************************************************"
-echo "*         THIS WILL DELETE ALL THE DATA ON $device        *"
-echo "*                                                          *"
-echo "*         WARNING! Make sure your computer does not go     *"
-echo "*                  in to idle mode while this script is    *"
-echo "*                  running. The script will complete,      *"
-echo "*                  but your SD card may be corrupted.      *"
-echo "*                                                          *"
-echo "*         Press <ENTER> to confirm....                     *"
-echo "************************************************************"
+echo "* Press <ENTER> to confirm.... *"
 read junk
 
 for i in `ls -1 ${device}p?`; do
@@ -92,10 +77,11 @@ SIZE=`fdisk -l $device | grep Disk | awk '{print $5}'`
 echo DISK SIZE - $SIZE bytes
 
 parted -s ${device} mklabel msdos
-parted -s ${device} unit cyl mkpart primary fat32 -- 0 9
+parted -s ${device} unit cyl mkpart primary fat32 -- 0 5 #boot
 parted -s ${device} set 1 boot on
-parted -s ${device} unit cyl mkpart primary ext2 -- 9 -2
-
+parted -s ${device} unit cyl mkpart primary ext2 -- 5 50 #rootfs
+parted -s ${device} unit cyl mkpart primary ext2 -- 50 100 #fpga dsp
+parted -s ${device} unit cyl mkpart primary ext2 -- 200 -2  # userdata
 msleep 500
 
 for i in `ls -1 ${device}p?`; do
@@ -107,25 +93,31 @@ echo "Formating ${device}p1 ..."
 mkfs.vfat -F 32 -n "boot" ${device}p1
 echo "Formating ${device}p2 ..."
 mkfs.ext4 -L "rootfs" ${device}p2
+echo "Formating ${device}p3 ..."
+mkfs.ext4 -L "dspfpga" ${device}p3
+echo "Formating ${device}p4 ..."
+mkfs.ext4 -L "userdata" ${device}p4
 sync
 sleep 1
 
-mount  ${device}p1 /run/media/mmcblk1p1
-mount -t ext4 ${device}p2 /run/media/mmcblk1p2
+mount ${device}p1 /run/media/mmcblk1p1
+mount ${device}p2 /run/media/mmcblk1p2
+mount ${device}p3 /run/media/mmcblk1p3
+mount ${device}p4 /run/media/mmcblk1p4
 sync
 
 echo "Copying MLO/u-boot.img to ${device}p1"
-#mkdir -p /tmp/sdk/$$
-#mount  ${device}p1 /tmp/sdk/$$
-cp -rf /run/media/mmcblk0p1/* /run/media/mmcblk1p1/
+mkdir -p /tmp/sdk/$$
+mount ${device}p1 /tmp/sdk/$$
+cp -rf /run/media/mmcblk0p1/* /tmp/sdk/$$/
 echo "Copy MLO/u-boot.img to ${device}p1 Finished!"
 sync
 
-#umount  /tmp/sdk/$$
-#rm -rf /tmp/sdk/$$
+umount /tmp/sdk/$$
+rm -rf /tmp/sdk/$$
 
 echo "Copying filesystem to ${device}p2 ..."
-cp -rf /run/media/mmcblk0p2/* /run/media/mmcblk1p2/
+#cp -rf /run/media/mmcblk0p3/* /run/media/mmcblk1p2/
 echo "Copy filesystem to ${device}p2 Finished!"
 echo "syncing .........."
 echo
